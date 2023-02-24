@@ -1,0 +1,35 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Automatización de Bucket S3
+
+
+Parameters:
+  BucketName:
+    Type: String
+    Description: Nombre del Bucket S3
+
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    Parameters:
+      BucketName:
+        Default: ""
+        Label: "Nombre del Bucket S3"
+    ParameterGroups:
+      - Label:
+          default: "Bucket S3"
+        Parameters:
+          - BucketName
+
+
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref BucketName
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      VersioningConfiguration:
+        Status: "Enabled"
