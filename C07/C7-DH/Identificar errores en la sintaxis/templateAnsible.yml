@@ -1,0 +1,24 @@
+---
+- name: test raw module
+  hosts: all
+  tasks:
+    - name: run ipconfig
+      raw: ipconfig
+      register: ipconfig_output
+    - debug: var=ipconfig_output
+
+- name: test stat module
+  hosts: windows
+  tasks:
+    - name: test stat module on file
+      win_stat:
+        path: "C:/Windows/win.ini"
+      register: stat_file
+    - name: check stat_file result
+      assert:
+        msg: "Error: Stat file conditions not met"
+        that:
+          - "stat_file.stat.exists"
+          - "not stat_file.stat.isdir"
+          - "stat_file.stat.size > 0"
+          - "stat_file.stat.md5 is defined"

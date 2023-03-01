@@ -1,0 +1,9 @@
+---
+- name: Creamos un bucket S3 con Ansible
+  hosts: localhost
+
+  tasks:
+    - name: Creamos un bucket S3
+      aws_s3:
+        bucket: my-digitalhouse-stored-2023-mili
+        mode: create

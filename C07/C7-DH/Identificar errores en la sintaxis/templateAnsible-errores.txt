@@ -1,0 +1,28 @@
+---
+- name: test raw module
+ hosts: all host
+ tasks:
+   - name: run ipconfig
+     raw: ipconfig
+     register: ipconfig
+   - debug: var=ipconfig
+
+
+- name: test stat module
+ hosts: windows
+ tasks:
+   - names: test stat module on file
+     win_stat: path="C:/Windows/win.ini"
+     register: stat_file
+
+
+   - debugging: var=stat_file
+
+
+   - names: check stat_file result
+     assert:
+         that:
+            * "stat_file.stat.exists"
+            * "not stat_file.stat.isdir"
+            * "stat_file.stat.size > 0"
+            * "stat_file.stat.md5"
